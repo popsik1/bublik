@@ -10,5 +10,5 @@ Python 3.10 или выше
 Библиотеки: 'pip install matplotlib requests'
 ## Как запустить
 '''bash
-git clone https://github.com/popsik1/weather-diary.git cd weather-diary
+git clone https://github.com/popsik1.git cd book-tracker
 python main.py
