@@ -3,7 +3,9 @@ import os
 from tkinter import *
 from tkinter import ttk, messagebox
 
-DATA_FILE = "books.json"
+# Получаем путь к папке, где находится программа
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_FILE = os.path.join(CURRENT_DIR, "books.json")
 
 class BookTracker:
     def __init__(self, root):
@@ -214,8 +216,9 @@ class BookTracker:
         try:
             with open(DATA_FILE, "w", encoding="utf-8") as f:
                 json.dump(self.books, f, ensure_ascii=False, indent=4)
+            print(f"Данные сохранены в: {DATA_FILE}")  # Отладка
         except Exception as e:
-            messagebox.showerror("Ошибка", f"Не удалось сохранить файл: {e}")
+            messagebox.showerror("Ошибка", f"Не удалось сохранить файл: {e}\nПуть: {DATA_FILE}")
 
     def load_data(self):
         """Загрузить данные из JSON"""
@@ -223,10 +226,15 @@ class BookTracker:
             try:
                 with open(DATA_FILE, "r", encoding="utf-8") as f:
                     self.books = json.load(f)
-            except (json.JSONDecodeError, FileNotFoundError):
+                print(f"Данные загружены из: {DATA_FILE}")  # Отладка
+            except (json.JSONDecodeError, FileNotFoundError) as e:
+                print(f"Ошибка загрузки: {e}")
                 self.books = []
         else:
+            print(f"Файл {DATA_FILE} не найден, создаём новый список")
             self.books = []
+            # Создаём пустой JSON файл
+            self.save_data()
 
 if __name__ == "__main__":
     root = Tk()
